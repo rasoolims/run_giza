@@ -37,10 +37,10 @@ The following preprocessing steps are done while running the script:
 * Running different scripts such as plain2snt.out and MKCLS to provide data for GIZA++ (for more information read this [blog post](http://andreeaaussi.wordpress.com/2013/03/04/how-to-do-word-alignment-with-giza-from-parallel-corpora/)
 * Running giza on both side (source -> target and target -> source)
 
-## Retrieving Sentences with Casing
+# Retrieving Sentences with Casing
 __corpus.tok.clean.[lang_id]__ are the files in __[build_dir]__ after cleaning the size of the corpus and __corpus.tok.clean.lower.[lang_id]__ are the files after lowercasing the files. In alignment, lowercased files are used, thus if you want to use the original casing, you can easily align them with __corpus.tok.clean.[lang_id]__ files.
 
-## Retrieving Final Alignments
+# Retrieving Final Alignments
 In __[build_dir]__ you can find the following file patterns:
 
 * src_trg.align.*: Contains different __.final__ files from Giza++ from the source language to the target language.
@@ -48,5 +48,6 @@ In __[build_dir]__ you can find the following file patterns:
 
 
 # Requirements
-* Python
+* Python 2.6 or higher
+* Perl
 * Giza++ can be installed and the binary files should be put in __[gia_bin_dir]__. For more information, see [part I, support tools installation part of moses guides](http://www.statmt.org/moses_steps.html)
