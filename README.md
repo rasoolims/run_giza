@@ -34,7 +34,7 @@ The following preprocessing steps are done while running the script:
 * Putting the source/target files in a directory
 * Cleaning the corpus by [tokenizing](http://www.statmt.org/europarl/v5/tools.tgz) them, cleaning the corpus based on maximum and minimum size of the senence, lowercasing the chacters.
 * Running different scripts such as plain2snt.out and MKCLS to provide data for GIZA++ (for more information read this [blog post](http://andreeaaussi.wordpress.com/2013/03/04/how-to-do-word-alignment-with-giza-from-parallel-corpora/)
-* Running giza on both side (source -> target and target -> source)
+* Running giza on both sides (source -> target and target -> source)
 
 # Retrieving Sentences with Casing
 __corpus.tok.clean.[lang_id]__ are the files in __[build_dir]__ after cleaning the size of the corpus and __corpus.tok.clean.lower.[lang_id]__ are the files after lowercasing the files. In alignment, lowercased files are used, thus if you want to use the original casing, you can easily align them with __corpus.tok.clean.[lang_id]__ files.

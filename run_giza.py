@@ -1,7 +1,7 @@
 import os,sys,glob
 
 if len(sys.argv)<4:
-	print 'python run_giz.py [giza_bin_dir] [tokenizer_script_path] [build_dir] [src_file] [trg_file] [src_lang_type] [trgt_lang_type] [min_len] [max_len]'
+	print 'python run_giza.py [giza_bin_dir] [tokenizer_script_path] [build_dir] [src_file] [trg_file] [src_lang_type] [trgt_lang_type] [min_len] [max_len]'
 	print 'WARNING: if [build_dir] is not empty, it will overwrite previous alignment files'
 	sys.exit(0)
 
