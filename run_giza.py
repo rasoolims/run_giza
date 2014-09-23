@@ -1,4 +1,4 @@
-import os,sys,glob
+import os,sys,glob,re
 
 if len(sys.argv)<4:
 	print 'python run_giza.py [giza_bin_dir] [tokenizer_script_path] [build_dir] [src_file] [trg_file] [src_lang_type] [trgt_lang_type] [min_len] [max_len]'
@@ -18,6 +18,10 @@ def clean_corpus(file_path,src_lang_type,trgt_lang_type,min_num,max_num):
 		line2=reader2.readline()
 		line1=line1.strip()
 		line2=line2.strip()
+
+		line1=re.sub(r'\s+', ' ', line1)
+		line2=re.sub(r'\s+', ' ', line2)
+
 		len1=len(line1.split(' '))
 		len2=len(line2.split(' '))
 		min_len=min(len1,len2)
