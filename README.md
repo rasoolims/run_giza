@@ -6,7 +6,7 @@ run_giza
 
 # USAGE
 ```
-python run_giz.py [giza_bin_dir] [tokenizer_script_path] [build_dir] [src_file] [trg_file] [src_lang_type] [trgt_lang_type] [min_len] [max_len]
+python run_giz.py [giza_bin_dir] [tokenizer_script_path] [cleaner_script_path] [build_dir] [src_file] [trg_file] [src_lang_type] [trgt_lang_type] [min_len] [max_len]
 ```
 * [giza_bin_dir]: directory where giza++ and mkcls binary files are put. These file should be in that directory:
 	* GIZA++
@@ -14,6 +14,7 @@ python run_giz.py [giza_bin_dir] [tokenizer_script_path] [build_dir] [src_file] 
 	* plain2snt.out  
 	* snt2cooc.out
 * [tokenizer_script_path]: the perl script tokenizer.perl that can be download from [http://www.statmt.org/europarl/v5/tools.tgz](http://www.statmt.org/europarl/v5/tools.tgz)
+* [cleaner_script_path]: can be download from [https://github.com/moses-smt/mosesdecoder/blob/master/scripts/training/clean-corpus-n.perl](https://github.com/moses-smt/mosesdecoder/blob/master/scripts/training/clean-corpus-n.perl)
 *  [build_dir]: the directory where the preprocessed and output files should be there. 
     * If the directory does not exist, the script will create it.
 	* __WARNING__: If you want to keep your previous results, do not use an already used directory 

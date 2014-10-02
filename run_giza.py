@@ -1,62 +1,36 @@
 import os,sys,glob,re
 
 if len(sys.argv)<4:
-	print 'python run_giza.py [giza_bin_dir] [tokenizer_script_path] [build_dir] [src_file] [trg_file] [src_lang_type] [trgt_lang_type] [min_len] [max_len]'
+	print 'python run_giza.py [giza_bin_dir] [tokenizer_script_path] [cleaner_script_path] [build_dir] [src_file] [trg_file] [src_lang_type] [trgt_lang_type] [min_len] [max_len]'
 	print 'WARNING: if [build_dir] is not empty, it will overwrite previous alignment files'
 	sys.exit(0)
 
 
 
-def clean_corpus(file_path,src_lang_type,trgt_lang_type,min_num,max_num):
-	reader1=open(file_path+'.'+src_lang_type,'r')
-	reader2=open(file_path+'.'+trgt_lang_type,'r')
-	writer1=open(file_path+'.clean.'+src_lang_type,'w')
-	writer2=open(file_path+'.clean.'+trgt_lang_type,'w')
-
-	line1=reader1.readline()
-	while line1:
-		line2=reader2.readline()
-		line1=line1.strip()
-		line2=line2.strip()
-
-		line1=re.sub(r'\s+', ' ', line1)
-		line2=re.sub(r'\s+', ' ', line2)
-
-		len1=len(line1.split(' '))
-		len2=len(line2.split(' '))
-		min_len=min(len1,len2)
-		max_len=max(len1,len2)
-		if max_len<=max_num and min_len>=min_num and line1 and line2:
-			writer1.write(line1+'\n')
-			writer2.write(line2+'\n')
-
-		line1=reader1.readline()
-	writer1.flush()
-	writer1.close()
-	writer2.flush()
-	writer2.close()
-
-
+def clean_corpus(cleaner_script_path, file_path,src_lang_type,trgt_lang_type,min_num,max_num):
+	clean_path=file_path+'.clean'
+	os.system('perl '+cleaner_script_path+' '+file_path+' '+src_lang_type+' '+trgt_lang_type+' '+clean_path+' '+str(min_num)+' '+str(max_num))
 
 giza_bin_dir=os.path.abspath(sys.argv[1])+'/'
 tokenizer_script_path=os.path.abspath(sys.argv[2])
+cleaner_script_path=os.path.abspath(sys.argv[3])
 
-dir_path=os.path.abspath(sys.argv[3])+'/'
+dir_path=os.path.abspath(sys.argv[4])+'/'
 if not os.path.isdir(dir_path):
 	os.mkdir(dir_path)
 
 os.system('rm -f '+dir_path+'*.final')
-os.chdir(dir_path)
 
 
 print '(MSR_MESSAGE) copying files...'
 sys.stdout.flush()
-os.system('cp '+sys.argv[4]+' '+dir_path+'src.txt')
-os.system('cp '+sys.argv[5]+' '+dir_path+'dst.txt')
-src_lang_type=sys.argv[6]
-trgt_lang_type=sys.argv[7]
-min_len=int(sys.argv[8])
-max_len=int(sys.argv[9])
+os.system('cp '+sys.argv[5]+' '+dir_path+'src.txt')
+os.system('cp '+sys.argv[6]+' '+dir_path+'dst.txt')
+src_lang_type=sys.argv[7]
+trgt_lang_type=sys.argv[8]
+min_len=int(sys.argv[9])
+max_len=int(sys.argv[10])
+os.chdir(dir_path)
 
 print '(MSR_MESSAGE) tokenizing files...'
 sys.stdout.flush()
@@ -65,7 +39,7 @@ os.system('perl '+tokenizer_script_path+' -l '+trgt_lang_type+' < '+dir_path+'ds
 
 print '(MSR_MESSAGE) cleaning files...'
 sys.stdout.flush()
-clean_corpus(dir_path+'corpus.tok',src_lang_type,trgt_lang_type,min_len,max_len)
+clean_corpus(cleaner_script_path, dir_path+'corpus.tok',src_lang_type,trgt_lang_type,min_len,max_len)
 
 
 print '(MSR_MESSAGE) lowercasing files...'
@@ -104,7 +78,7 @@ os.system(giza_bin_dir+'mkcls -n10 -p'+dir_path+final_dst_file+' -V'+dst_vcb_fil
 print '(MSR_MESSAGE) run gizza on source->target...'
 sys.stdout.flush()
 os.system(giza_bin_dir+'GIZA++ -S  '+src_vcb_file+ ' -T '+dst_vcb_file+' -C '\
-	+ snt_file+' -CoocurrenceFile '+cooc_file+' -o '+dir_path+'src_trg.align '+' > '+dir_path+'s_t_nohup.out')
+	+ snt_file+' -CoocurrenceFile '+cooc_file+' -o '+dir_path+trgt_lang_type+'_'+src_lang_type+'.align '+' > '+dir_path+'s_t_nohup.out')
 
 
 '''
@@ -123,7 +97,7 @@ os.system(giza_bin_dir+'snt2cooc.out '+src_vcb_file+' '+dst_vcb_file+' '+snt_fil
 print '(MSR_MESSAGE) run gizza...'
 sys.stdout.flush()
 os.system(giza_bin_dir+'GIZA++ -S  '+dst_vcb_file+ ' -T '+src_vcb_file+' -C '\
-	+ snt_file+' -CoocurrenceFile '+cooc_file +' -o '+dir_path+'trg_src.align '+' > '+dir_path+'t_s_nohup.out')
+	+ snt_file+' -CoocurrenceFile '+cooc_file +' -o '+dir_path+src_lang_type+'_'+trgt_lang_type+'.align '+' > '+dir_path+'t_s_nohup.out')
 
 print '(MSR_MESSAGE) done!'
 
