@@ -10,8 +10,8 @@ if len(sys.argv)<4:
 def clean_corpus(cleaner_script_path, file_path,src_lang_type,trgt_lang_type,min_num,max_num):
 	clean_path=file_path+'.clean'
 	os.system('perl '+cleaner_script_path+' '+file_path+' '+src_lang_type+' '+trgt_lang_type+' '+clean_path+' '+str(min_num)+' '+str(max_num))
-	os.system('sed -i \'s/  */\ /g\' '+clean_path+'.'+src_lang_type)
-	os.system('sed -i \'s/  */\ /g\' '+clean_path+'.'+trgt_lang_type)
+	os.system('sed -i \'s/ */\ /g\' '+clean_path+'.'+src_lang_type)
+	os.system('sed -i \'s/ */\ /g\' '+clean_path+'.'+trgt_lang_type)
 
 giza_bin_dir=os.path.abspath(sys.argv[1])+'/'
 tokenizer_script_path=os.path.abspath(sys.argv[2])
