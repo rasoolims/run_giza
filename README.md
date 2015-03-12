@@ -6,7 +6,7 @@ run_giza
 
 # USAGE
 ```
-python run_giz.py [giza_bin_dir] [tokenizer_script_path] [cleaner_script_path] [build_dir] [src_file] [trg_file] [src_lang_type] [trgt_lang_type] [min_len] [max_len]
+python run_giz.py [giza_bin_dir] [tokenizer_script_path(input null, if text is pre-tokenized)] [cleaner_script_path] [build_dir] [src_file] [trg_file] [src_lang_type] [trgt_lang_type] [min_len] [max_len]
 ```
 * [giza_bin_dir]: directory where giza++ and mkcls binary files are put. These file should be in that directory:
 	* GIZA++
